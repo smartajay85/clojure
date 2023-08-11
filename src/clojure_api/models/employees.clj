@@ -34,6 +34,12 @@
        (catch java.sql.SQLException _ (str "An SQL Query error occured"))
        (catch Exception e (str "An error occured:" (.getMessage e))))
   )
+(defn getEmployeesByDepartment
+  [deptId]
+  (try (first (sql/query db/db-config
+                         ["select * from cj_employees where dept_id = ?" deptId]))
+       (catch java.sql.SQLException _ (str "An SQL Query error occured"))
+       (catch Exception e (str "An error occured:" (.getMessage e)))))
 
 (defn updateEmployee [id params]
   (try (sql/update! db/db-config

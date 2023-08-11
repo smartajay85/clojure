@@ -8,6 +8,8 @@
 
 (defn getEmployee [id] (emp/getEmployee id))
 
+(defn getEmployeesByDepartment [id] (emp/getEmployeesByDepartment id))
+
 (defn createEmployee [params] (emp/createEmployee params))
 
 (defn updateEmployee [id params] (emp/updateEmployee id params))
@@ -17,18 +19,19 @@
 (defroutes
   routes
   (GET "/employees" [] (response (getAllEmployee)))
-
   (GET "/employee/:employeeId{[0-9]+}"
        [employeeId :<< as-int]
        (response (getEmployee employeeId)))
+  
+  (GET "/employees/department/:deptId{[0-9]+}"
+       [deptId :<< as-int]
+       (response (getEmployeesByDepartment deptId)))
   
   (POST "/employee/create" request (response (createEmployee (request :body))))
 
   (PUT "/employee/update/:employeeId{[0-9]+}"
        [employeeId :<< as-int :as request]
        (response (updateEmployee employeeId (request :body))))
-  
   (DELETE "/employee/delete/:employeeId{[0-9]+}"
           [employeeId :<< as-int]
           (response (deleteEmployee employeeId))))
-  
